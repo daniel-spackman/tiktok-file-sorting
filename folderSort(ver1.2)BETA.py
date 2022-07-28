@@ -28,7 +28,6 @@ for file_name in clean_list_mp4:
 makedir_used = False
 createprem_used = False
 movefiles_used = False
-
 skip_choice = False
 
 #decides what functions to run
