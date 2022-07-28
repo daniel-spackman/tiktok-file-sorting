@@ -9,20 +9,15 @@ import pythoncom
 import csv
 from natsort import natsorted
 
+
 current_dir = os.path.dirname(os.path.realpath(__file__))
-#Change to location of premade project files
-proj_file_path = "D:\Youtube Library\Misc\proj_files"
+#Change to location of project files 
+proj_files_stored = "D:\Youtube Library\GMT\proj_files"
 
 cwd_dir_list = os.listdir(current_dir)
 
+clean_list = [x for x in cwd_dir_list if "mp4" in x]
 clean_list_mp4 = [x for x in cwd_dir_list if "mp4" in x]
-
-clean_list = []
-
-for file_name in clean_list_mp4:
-    
-    file_name = file_name.replace(".mp4","")
-    clean_list.append(file_name)
 
 makedir_used = False
 createprem_used = False
@@ -30,7 +25,6 @@ movefiles_used = False
 
 skip_choice = False
 
-#decides what functions to run
 def userchoice():
     global userinput
     global skip_choice
@@ -45,7 +39,7 @@ def userchoice():
     skip_choice = True
     main()
 
-#decides what project files to use
+
 def channel_func():
     global channel_name
     print("1. Gnaske")
@@ -89,7 +83,6 @@ def main():
     #Skips asking for input if required
     if skip_choice == True:
         pass
-    
     elif skip_choice == False:
         userchoice()
 
@@ -140,36 +133,40 @@ def makedir():
     global makedir_used
     makedir_used = True
 
-    for directory_name in clean_list:
-
-        dir_path = os.path.abspath(os.path.join(current_dir,directory_name))
+    count = 0
+    for i in clean_list:
+        clean_list[count] = clean_list[count].replace(".mp4","")
+        dir_path = os.path.abspath(os.path.join(current_dir,clean_list[count]))
         os.mkdir(dir_path)
-        
+        count += 1
+
     main()
 
-#moves mp4 files to named folders
+
+#movesfiles
 def movefiles():
 
     global movefiles_used
     movefiles_used = True
     
     count = 0
-    for file_name in clean_list_mp4:
-        src_path = os.path.abspath(os.path.join(current_dir,file_name))
-        dst_path = os.path.abspath(os.path.join(current_dir,clean_list[count],file_name))
+    for i in clean_list_mp4:
+        src_path = os.path.abspath(os.path.join(current_dir,clean_list_mp4[count]))
+        dst_path = os.path.abspath(os.path.join(current_dir,clean_list[count],clean_list_mp4[count]))
         shutil.move(src_path,dst_path)
         count += 1
 
     main()
 
+
 #creates premiere files matching to folder name
 def createprem():
 
-    global channel_name
     global createprem_used
     createprem_used = True
+    global channel_name
     
-    proj_files_dir = os.path.abspath(os.path.join(proj_file_path,channel_name))
+    proj_files_dir = os.path.abspath(os.path.join(proj_files_stored,channel_name))
     dst_dir_list = os.listdir(current_dir)
     dst_dir_list_clean = []
 
@@ -260,6 +257,7 @@ def createprem():
     createprem_used = True
     main()
 
+
 #creates a shortcut to the final video
 def createshortcut():
     
@@ -324,7 +322,7 @@ def createshortcut():
         skip_choice = False
         main()
 
-#indexes the folders
+
 def indexing():
 
     index_folder = os.path.abspath(os.path.join(os.path.dirname(current_dir),"index"))
@@ -414,7 +412,6 @@ def indexing():
 
     main()
 
-#makes a copy paste file to export data to google sheets
 def excel_index():
 
     excel_index_path = os.path.abspath(os.path.join(os.path.dirname(current_dir),"index.csv"))
@@ -422,6 +419,9 @@ def excel_index():
     if os.path.isfile(excel_index_path):
         os.remove(excel_index_path)
         
+    f = open("index.csv","w+")
+    f.close()
+    
     index_folder = os.path.abspath(os.path.join(os.path.dirname(current_dir),"index"))
     list_index = os.listdir(index_folder)
     
