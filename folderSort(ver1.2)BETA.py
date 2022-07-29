@@ -29,7 +29,7 @@ createprem_used = False
 movefiles_used = False
 skip_choice = False
 
-#decides what functions to run
+#decides what functions to run todo #12 
 def userchoice():
     global userinput
     global skip_choice
