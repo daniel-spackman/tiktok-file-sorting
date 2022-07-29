@@ -12,7 +12,7 @@ from natsort import natsorted
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
-#Change to location of premade project files todo #11 - updated the test issue @daniel-spackman
+#Change to location of premade project files
 proj_file_path = "D:\Youtube Library\Misc\proj_files"
 
 cwd_dir_list = os.listdir(current_dir)
