@@ -9,7 +9,7 @@ import pythoncom
 import csv
 from natsort import natsorted
 
-#6 will need editing
+
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
 #Change to location of premade project files
