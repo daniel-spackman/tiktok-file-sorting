@@ -9,16 +9,14 @@ import pythoncom
 import csv
 from natsort import natsorted
 
-
+#6 will need to be changed to use directory path from config file
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
-#Change to location of premade project files
+#Change to location of premade project files #7 use a config file instead of saving information in code
 proj_file_path = "D:\Youtube Library\Misc\proj_files"
 
 cwd_dir_list = os.listdir(current_dir)
-
 clean_list_mp4 = [x for x in cwd_dir_list if "mp4" in x]
-
 clean_list = []
 
 for file_name in clean_list_mp4:
