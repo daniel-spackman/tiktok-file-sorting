@@ -418,10 +418,7 @@ def excel_index():
 
     if os.path.isfile(excel_index_path):
         os.remove(excel_index_path)
-        
-    f = open("index.csv","w+")
-    f.close()
-    
+            
     index_folder = os.path.abspath(os.path.join(os.path.dirname(current_dir),"index"))
     list_index = os.listdir(index_folder)
     
