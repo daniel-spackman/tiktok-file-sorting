@@ -33,6 +33,7 @@ def user_choice():
 
     global user_input
     global skip_choice
+    
     print("1. Make directories")
     print("2. Move Files")
     print("3. Import Project Files")
