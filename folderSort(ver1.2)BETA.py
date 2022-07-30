@@ -116,7 +116,7 @@ def main():
             make_dir()
             user_choice()
     elif user_input == "2":
-        for dir_name in clean_list:
+        for dir_name in clean_list: # TODO #23 this doesn't work as it should
             if os.path.isdir(os.path.join(current_dir,dir_name)):
                 move_files()
                 user_choice()
