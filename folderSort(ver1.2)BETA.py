@@ -9,31 +9,29 @@ import pythoncom
 import csv
 from natsort import natsorted
 
+# Location of this code
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
-#Change to location of premade project files
+# Change to location of premade project files
 proj_file_path = "D:\Youtube Library\Misc\proj_files"
 
 cwd_dir_list = os.listdir(current_dir)
 clean_list_mp4 = [x for x in cwd_dir_list if "mp4" in x]
 clean_list = []
 
+# Creates list without .mp4 to make directories
 for file_name in clean_list_mp4:
-    
     file_name = file_name.replace(".mp4","")
     clean_list.append(file_name)
 
-makedir_used = False
-createprem_used = False
-movefiles_used = False
+make_dir_used = False
+copy_proj_used = False
+move_files_used = False
 skip_choice = False
 
-#allows function selection
+# Allows function selection
 def user_choice():
 
-    global user_input
-    global skip_choice
-    
     print("1. Make directories")
     print("2. Move Files")
     print("3. Import Project Files")
@@ -41,117 +39,118 @@ def user_choice():
     print("5. Create Shortcut")
     print("6. Index Files")
     print("7. Update Excel Index")
+
+    global user_input
+    global skip_choice
+
     user_input = input("What do you want to do? (1 - ...) : ")
     skip_choice = True
+
     main()
 
-#allows project file selection
+# Allows project file selection
 def channel_func():
+
     global channel_name
+
     print("1. Gnaske")
     print("2. MaxStrafe")
     print("3. SirDel")
     print("4. Default")
+
     channel_input = input("What channel are you editing? (1 - 4) : ")
+
     if channel_input == "1":
         channel_name = "Gnaske"
-        createprem()
+        copy_proj()
     elif channel_input == "2":
         channel_name = "MaxStrafe"
-        createprem()
+        copy_proj()
     elif channel_input == "3":
         channel_name = "SirDel"
-        createprem()               
+        copy_proj()     
     elif channel_input == "4":
         channel_name = "Default"
-        createprem()
+        copy_proj()
     else:
         print("Not a valid input")
         print("1. Input a different channel name")
         print("2. Use a default project file")
         print("3. Go to main options")
+
         valid_input = input("What option do you want? (1 - 3) : ")
+
         if valid_input == "1":
             channel_func()
         elif valid_input == "2":
             channel_name = "Default"
-            createprem()
+            copy_proj()
         elif valid_input == "3":
             main()
 
-#main function
+# Main function
 def main():
+
     global skip_choice
     global channel_name
-    global createprem_used
+    global copy_proj_used
 
-
-    #Skips asking for input if required
-    if skip_choice == True:
+    # Skips asking for input if required
+    if skip_choice:
         pass
-    
-    elif skip_choice == False:
+    elif not skip_choice:
         user_choice()
 
-    if user_input == "1":
-        makedir()
-
+    if user_input == "1" and not make_dir_used:
+        make_dir()
+        skip_choice = False
+        main()
     elif user_input == "2":
-
-        if makedir_used == True:
-            movefiles()
-
-        elif makedir_used == False:
+        if make_dir_used:
+            move_files()
+        elif not make_dir_used:
             usercont = input("The directories function hasn't been run yet do you want to continue? (y / n) : ")
             if usercont == "y":
-                movefiles()
+                move_files()
             else:
                 main()
-
     elif user_input == "3":
         channel_func()
-
     elif user_input == "4":
         skip_choice = True
-        if makedir_used == False:
-            makedir()
-        elif movefiles_used == False:
-            movefiles()
-        elif createprem_used == False:
+        if make_dir_used == False:
+            make_dir()
+        elif move_files_used == False:
+            move_files()
+        elif copy_proj_used == False:
             skip_choice = False
             channel_func()
-            createprem()
-
+            copy_proj()
     elif user_input == "5":
         skip_choice = False
-        createshortcut()
-
+        create_shortcut()
     elif user_input == "6":
         skip_choice = False
         indexing()
-    
     elif user_input == "7":
         skip_choice = False
         excel_index()
 
 #makes creates folders using the file name
-def makedir():
+def make_dir():
 
-    global makedir_used
-    makedir_used = True
+    global make_dir_used
+    make_dir_used = True
 
     for directory_name in clean_list:
-
         dir_path = os.path.abspath(os.path.join(current_dir,directory_name))
         os.mkdir(dir_path)
-        
-    main()
 
 #moves mp4 files to folders with same name
-def movefiles():
+def move_files():
 
-    global movefiles_used
-    movefiles_used = True
+    global move_files_used
+    move_files_used = True
     
     count = 0
     for file_name in clean_list_mp4:
@@ -162,12 +161,12 @@ def movefiles():
 
     main()
 
-#creates premiere files matching to folder name
-def createprem():
+#copys the desired project files and then renames to match file name
+def copy_proj():
 
     global channel_name
-    global createprem_used
-    createprem_used = True
+    global copy_proj_used
+    copy_proj_used = True
     
     proj_files_dir = os.path.abspath(os.path.join(proj_file_path,channel_name))
     dst_dir_list = os.listdir(current_dir)
@@ -257,11 +256,11 @@ def createprem():
         
         count_prem += 1
     
-    createprem_used = True
+    copy_proj_used = True
     main()
 
 #creates a shortcut to the final video
-def createshortcut():
+def create_shortcut():
     
     list_dirs = os.listdir(current_dir)
     list_subdirs = []
