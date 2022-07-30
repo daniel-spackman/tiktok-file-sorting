@@ -103,17 +103,27 @@ def main():
 
     if user_input == "1" and not make_dir_used:
         make_dir()
-        skip_choice = False
-        main()
+        user_choice()
+
     elif user_input == "2":
-        if make_dir_used:
-            move_files()
-        elif not make_dir_used:
-            usercont = input("The directories function hasn't been run yet do you want to continue? (y / n) : ")
-            if usercont == "y":
+        for dir_name in clean_list:
+            if os.path.isdir(os.path.join(current_dir,dir_name)):
                 move_files()
+                user_choice()
             else:
-                main()
+                print("There are missing directories!")
+                while True:
+                    dir_user_input = input("Do you want to create the missing directories? (y/n) : ")
+                    if dir_user_input == "y":
+                        make_dir()
+                        move_files()
+                        user_choice()
+                    elif dir_user_input == "n": # TODO #18 Program crashes after this 
+                        move_files()
+                        user_choice()
+                    else:
+                        print("Enter an existing option!")
+
     elif user_input == "3":
         channel_func()
     elif user_input == "4":
@@ -136,7 +146,7 @@ def main():
         skip_choice = False
         excel_index()
 
-#makes creates folders using the file name
+# Makes folders
 def make_dir():
 
     global make_dir_used
@@ -146,7 +156,7 @@ def make_dir():
         dir_path = os.path.abspath(os.path.join(current_dir,directory_name))
         os.mkdir(dir_path)
 
-#moves mp4 files to folders with same name
+# Moves filves to folders
 def move_files():
 
     global move_files_used
@@ -159,9 +169,7 @@ def move_files():
         shutil.move(src_path,dst_path)
         count += 1
 
-    main()
-
-#copys the desired project files and then renames to match file name
+# Copys and renames project files
 def copy_proj():
 
     global channel_name
