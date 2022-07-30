@@ -116,23 +116,9 @@ def main():
             make_dir()
             user_choice()
     elif user_input == "2":
-        for dir_name in clean_list: # TODO #23 this doesn't work as it should
-            if os.path.isdir(os.path.join(current_dir,dir_name)):
-                move_files()
-                user_choice()
-            else:
-                print("There are missing directories!")
-                while True:
-                    dir_user_input = input("Do you want to create the missing directories? (y/n) : ")
-                    if dir_user_input == "y":
-                        make_dir()
-                        move_files()
-                        user_choice()
-                    elif dir_user_input == "n": # TODO #18 Program crashes after this 
-                        move_files()
-                        user_choice()
-                    else:
-                        print("Enter an existing option!")
+        move_files()
+        user_choice()
+
     elif user_input == "3": # TODO #21 Using this option without directories causes a loop
         copy_proj()
     elif user_input == "4": # TODO #22 Update this to work properly. Currently doesn't import project files
@@ -170,7 +156,27 @@ def move_files():
 
     global move_files_used
     move_files_used = True
-    
+
+    dir_need = []
+    dir_exists = []
+    for dir_name in clean_list:
+        if os.path.isdir(os.path.join(current_dir,dir_name)):
+            dir_exists.append(dir_name)
+        elif not os.path.isdir(os.path.join(current_dir,dir_name)):
+            dir_need.append(dir_name)
+    if dir_need:
+        print("There are missing directories!")
+        while True:
+            dir_user_input = input("Do you want to create the missing directories? (y/n) : ")
+            if dir_user_input == "y":
+                make_dir()
+                break
+            elif dir_user_input == "n": # TODO #18 Program crashes after this 
+                move_files()
+                break
+            else:
+                print("Enter an existing option!")
+
     count = 0
     for file_name in clean_list_mp4:
         src_path = os.path.abspath(os.path.join(current_dir,file_name))
