@@ -133,9 +133,9 @@ def main():
                         user_choice()
                     else:
                         print("Enter an existing option!")
-    elif user_input == "3":
+    elif user_input == "3": # TODO #21 Using this option without directories causes a loop
         channel_func()
-    elif user_input == "4":
+    elif user_input == "4": # TODO #22 Update this to work properly. Currently doesn't import project files
         skip_choice = True
         if make_dir_used == False:
             make_dir()
