@@ -118,6 +118,7 @@ def main():
     elif user_input == "2":
         move_files()
         user_choice()
+
     elif user_input == "3": # TODO #21 Using this option without directories causes a loop
         copy_proj()
     elif user_input == "4": # TODO #22 Update this to work properly. Currently doesn't import project files
