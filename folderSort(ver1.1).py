@@ -9,7 +9,6 @@ import pythoncom
 import csv
 from natsort import natsorted
 
-
 current_dir = os.path.dirname(os.path.realpath(__file__))
 #Change to location of project files 
 proj_files_stored = "D:\Youtube Library\GMT\proj_files"
@@ -22,7 +21,6 @@ clean_list_mp4 = [x for x in cwd_dir_list if "mp4" in x]
 makedir_used = False
 createprem_used = False
 movefiles_used = False
-
 skip_choice = False
 
 #allows function selection
