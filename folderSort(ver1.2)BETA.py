@@ -103,29 +103,24 @@ def main():
     global copy_proj_used
 
     # Skips asking for input if required
-    if skip_choice == True:
+    if skip_choice:
         pass
-    
-    elif skip_choice == False:
+    elif not skip_choice:
         user_choice()
 
     if user_input == "1":
         make_dir()
-
     elif user_input == "2":
-        if make_dir_used == True:
+        if make_dir_used:
             move_files()
-
-        elif make_dir_used == False:
+        elif not make_dir_used:
             usercont = input("The directories function hasn't been run yet do you want to continue? (y / n) : ")
             if usercont == "y":
                 move_files()
             else:
                 main()
-
     elif user_input == "3":
         channel_func()
-
     elif user_input == "4":
         skip_choice = True
         if make_dir_used == False:
@@ -136,15 +131,12 @@ def main():
             skip_choice = False
             channel_func()
             copy_proj()
-
     elif user_input == "5":
         skip_choice = False
         create_shortcut()
-
     elif user_input == "6":
         skip_choice = False
         indexing()
-    
     elif user_input == "7":
         skip_choice = False
         excel_index()
@@ -156,7 +148,6 @@ def make_dir():
     make_dir_used = True
 
     for directory_name in clean_list:
-
         dir_path = os.path.abspath(os.path.join(current_dir,directory_name))
         os.mkdir(dir_path)
         
