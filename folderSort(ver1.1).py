@@ -25,7 +25,9 @@ movefiles_used = False
 
 skip_choice = False
 
+#allows function selection
 def userchoice():
+
     global userinput
     global skip_choice
     print("1. Make directories")
@@ -39,8 +41,9 @@ def userchoice():
     skip_choice = True
     main()
 
-
+#allows project file selection
 def channel_func():
+
     global channel_name
     print("1. Gnaske")
     print("2. MaxStrafe")
@@ -75,14 +78,15 @@ def channel_func():
 
 #main function
 def main():
+
     global skip_choice
     global channel_name
     global createprem_used
 
-
     #Skips asking for input if required
     if skip_choice == True:
         pass
+
     elif skip_choice == False:
         userchoice()
 
@@ -142,7 +146,6 @@ def makedir():
 
     main()
 
-
 #movesfiles
 def movefiles():
 
@@ -157,7 +160,6 @@ def movefiles():
         count += 1
 
     main()
-
 
 #creates premiere files matching to folder name
 def createprem():
@@ -257,7 +259,6 @@ def createprem():
     createprem_used = True
     main()
 
-
 #creates a shortcut to the final video
 def createshortcut():
     
@@ -322,7 +323,7 @@ def createshortcut():
         skip_choice = False
         main()
 
-
+#indexes and relocates files
 def indexing():
 
     index_folder = os.path.abspath(os.path.join(os.path.dirname(current_dir),"index"))
@@ -412,6 +413,7 @@ def indexing():
 
     main()
 
+#adds index number and description to excel file
 def excel_index():
 
     excel_index_path = os.path.abspath(os.path.join(os.path.dirname(current_dir),"index.csv"))
