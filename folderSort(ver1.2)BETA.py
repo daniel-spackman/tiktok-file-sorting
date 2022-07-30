@@ -134,7 +134,7 @@ def main():
                     else:
                         print("Enter an existing option!")
     elif user_input == "3": # TODO #21 Using this option without directories causes a loop
-        channel_func()
+        copy_proj()
     elif user_input == "4": # TODO #22 Update this to work properly. Currently doesn't import project files
         skip_choice = True
         if make_dir_used == False:
@@ -188,6 +188,8 @@ def copy_proj():
     proj_files_dir = os.path.abspath(os.path.join(proj_file_path,channel_name))
     dst_dir_list = os.listdir(current_dir)
     dst_dir_list_clean = []
+
+    channel_func()
 
     for p in dst_dir_list:
         if os.path.isdir(os.path.abspath(os.path.join(current_dir,p))):
