@@ -63,21 +63,16 @@ def channel_func():
     if channel_input == "1":
         channel_name = "Gnaske"
         copy_proj()
-
     elif channel_input == "2":
         channel_name = "MaxStrafe"
         copy_proj()
-
     elif channel_input == "3":
         channel_name = "SirDel"
         copy_proj()     
-
     elif channel_input == "4":
         channel_name = "Default"
         copy_proj()
-
     else:
-
         print("Not a valid input")
         print("1. Input a different channel name")
         print("2. Use a default project file")
@@ -87,11 +82,9 @@ def channel_func():
 
         if valid_input == "1":
             channel_func()
-
         elif valid_input == "2":
             channel_name = "Default"
             copy_proj()
-
         elif valid_input == "3":
             main()
 
@@ -108,8 +101,10 @@ def main():
     elif not skip_choice:
         user_choice()
 
-    if user_input == "1":
+    if user_input == "1" and not make_dir_used:
         make_dir()
+        skip_choice = False
+        main()
     elif user_input == "2":
         if make_dir_used:
             move_files()
@@ -150,8 +145,6 @@ def make_dir():
     for directory_name in clean_list:
         dir_path = os.path.abspath(os.path.join(current_dir,directory_name))
         os.mkdir(dir_path)
-        
-    main()
 
 #moves mp4 files to folders with same name
 def move_files():
