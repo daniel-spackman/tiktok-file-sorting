@@ -192,6 +192,8 @@ def move_files():
             dst_path = os.path.abspath(os.path.join(current_dir,clean_list[count],file_name))
             shutil.move(src_path,dst_path)
             count += 1
+    else:
+        print("Error No. 1")
 
 # Copys and renames project files
 def copy_proj():
