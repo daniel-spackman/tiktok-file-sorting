@@ -101,10 +101,20 @@ def main():
     elif not skip_choice:
         user_choice()
 
-    if user_input == "1" and not make_dir_used:
-        make_dir()
-        user_choice()
-
+    if user_input == "1":
+        if make_dir_used:
+            while True:
+                make_dir_user_input = input("Do you want to run this again? (y/n) : ")
+                if make_dir_user_input == "y": # TODO #20 Program crashes here
+                    make_dir()
+                    user_choice()
+                elif make_dir_user_input == "n":
+                    user_choice()
+                else:
+                    print("Enter an existing option!")
+        elif not make_dir_used:
+            make_dir()
+            user_choice()
     elif user_input == "2":
         for dir_name in clean_list:
             if os.path.isdir(os.path.join(current_dir,dir_name)):
@@ -123,7 +133,6 @@ def main():
                         user_choice()
                     else:
                         print("Enter an existing option!")
-
     elif user_input == "3":
         channel_func()
     elif user_input == "4":
@@ -156,7 +165,7 @@ def make_dir():
         dir_path = os.path.abspath(os.path.join(current_dir,directory_name))
         os.mkdir(dir_path)
 
-# Moves filves to folders
+# Moves files to folders
 def move_files():
 
     global move_files_used
