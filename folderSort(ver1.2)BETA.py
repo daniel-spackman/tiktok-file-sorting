@@ -175,7 +175,7 @@ def move_files():
             if dir_user_input == "y":
                 make_dir()
                 break
-            elif dir_user_input == "n": # TODO #18 Program crashes after this 
+            elif dir_user_input == "n":
                 count = 0
                 for file_name in dir_exists_mp4:
                     src_path = os.path.abspath(os.path.join(current_dir,file_name))
