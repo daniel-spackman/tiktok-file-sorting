@@ -158,11 +158,16 @@ def move_files():
 
     dir_need = []
     dir_exists = []
+    dir_exists_mp4 = []
+    count = 0
     for dir_name in clean_list:
         if os.path.isdir(os.path.join(current_dir,dir_name)):
             dir_exists.append(dir_name)
+            dir_exists_index = clean_list.index(dir_name)
+            dir_exists_mp4.append(clean_list_mp4[dir_exists_index])
         elif not os.path.isdir(os.path.join(current_dir,dir_name)):
             dir_need.append(dir_name)
+    
     if dir_need:
         print("There are missing directories!")
         while True:
@@ -171,17 +176,22 @@ def move_files():
                 make_dir()
                 break
             elif dir_user_input == "n": # TODO #18 Program crashes after this 
-                move_files()
+                count = 0
+                for file_name in dir_exists_mp4:
+                    src_path = os.path.abspath(os.path.join(current_dir,file_name))
+                    dst_path = os.path.abspath(os.path.join(current_dir,dir_exists[count],file_name))
+                    shutil.move(src_path,dst_path)
+                    count += 1
                 break
             else:
                 print("Enter an existing option!")
-
-    count = 0
-    for file_name in clean_list_mp4:
-        src_path = os.path.abspath(os.path.join(current_dir,file_name))
-        dst_path = os.path.abspath(os.path.join(current_dir,clean_list[count],file_name))
-        shutil.move(src_path,dst_path)
-        count += 1
+    elif dir_exists == clean_list:
+        count = 0
+        for file_name in clean_list_mp4:
+            src_path = os.path.abspath(os.path.join(current_dir,file_name))
+            dst_path = os.path.abspath(os.path.join(current_dir,clean_list[count],file_name))
+            shutil.move(src_path,dst_path)
+            count += 1
 
 # Copys and renames project files
 def copy_proj():
