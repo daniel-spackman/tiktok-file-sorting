@@ -9,7 +9,6 @@ import pythoncom
 import csv
 from natsort import natsorted
 
-
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
 #Change to location of premade project files
@@ -29,9 +28,10 @@ createprem_used = False
 movefiles_used = False
 skip_choice = False
 
-#decides what functions to run todo #12 
-def userchoice():
-    global userinput
+#allows function selection
+def user_choice():
+
+    global user_input
     global skip_choice
     print("1. Make directories")
     print("2. Move Files")
@@ -40,11 +40,11 @@ def userchoice():
     print("5. Create Shortcut")
     print("6. Index Files")
     print("7. Update Excel Index")
-    userinput = input("What do you want to do? (1 - ...) : ")
+    user_input = input("What do you want to do? (1 - ...) : ")
     skip_choice = True
     main()
 
-#decides what project files to use
+#allows project file selection
 def channel_func():
     global channel_name
     print("1. Gnaske")
@@ -90,12 +90,12 @@ def main():
         pass
     
     elif skip_choice == False:
-        userchoice()
+        user_choice()
 
-    if userinput == "1":
+    if user_input == "1":
         makedir()
 
-    elif userinput == "2":
+    elif user_input == "2":
 
         if makedir_used == True:
             movefiles()
@@ -107,10 +107,10 @@ def main():
             else:
                 main()
 
-    elif userinput == "3":
+    elif user_input == "3":
         channel_func()
 
-    elif userinput == "4":
+    elif user_input == "4":
         skip_choice = True
         if makedir_used == False:
             makedir()
@@ -121,19 +121,19 @@ def main():
             channel_func()
             createprem()
 
-    elif userinput == "5":
+    elif user_input == "5":
         skip_choice = False
         createshortcut()
 
-    elif userinput == "6":
+    elif user_input == "6":
         skip_choice = False
         indexing()
     
-    elif userinput == "7":
+    elif user_input == "7":
         skip_choice = False
         excel_index()
 
-#makes folders
+#makes creates folders using the file name
 def makedir():
 
     global makedir_used
@@ -146,7 +146,7 @@ def makedir():
         
     main()
 
-#moves mp4 files to named folders
+#moves mp4 files to folders with same name
 def movefiles():
 
     global movefiles_used
