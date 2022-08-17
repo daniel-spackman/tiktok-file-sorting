@@ -118,15 +118,11 @@ def main():
         copy_proj()
         user_choice()
     elif user_input == "4": # TODO #22 Update this to work properly. Currently doesn't import project files
-        skip_choice = True
-        if make_dir_used == False:
-            make_dir()
-        elif move_files_used == False:
-            move_files()
-        elif copy_proj_used == False:
-            skip_choice = False
-            channel_func()
-            copy_proj()
+        make_dir()
+        move_files()
+        channel_func()
+        copy_proj()
+        user_choice()
     elif user_input == "5":
         skip_choice = False
         create_shortcut()
