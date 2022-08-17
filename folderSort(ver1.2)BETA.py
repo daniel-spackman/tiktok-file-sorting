@@ -117,7 +117,7 @@ def main():
         channel_func()
         copy_proj()
         user_choice()
-    elif user_input == "4": # TODO #22 Update this to work properly. Currently doesn't import project files
+    elif user_input == "4": 
         make_dir()
         move_files()
         channel_func()
