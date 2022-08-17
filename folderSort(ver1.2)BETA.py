@@ -62,16 +62,12 @@ def channel_func():
 
     if channel_input == "1":
         channel_name = "Gnaske"
-        copy_proj()
     elif channel_input == "2":
         channel_name = "MaxStrafe"
-        copy_proj()
     elif channel_input == "3":
-        channel_name = "SirDel"
-        copy_proj()     
+        channel_name = "SirDel"   
     elif channel_input == "4":
         channel_name = "Default"
-        copy_proj()
     else:
         print("Not a valid input")
         print("1. Input a different channel name")
@@ -84,7 +80,6 @@ def channel_func():
             channel_func()
         elif valid_input == "2":
             channel_name = "Default"
-            copy_proj()
         elif valid_input == "3":
             main()
 
@@ -120,6 +115,7 @@ def main():
         user_choice()
     elif user_input == "3": # TODO #21 Using this option without directories causes a loop
         copy_proj()
+        user_choice()
     elif user_input == "4": # TODO #22 Update this to work properly. Currently doesn't import project files
         skip_choice = True
         if make_dir_used == False:
@@ -205,38 +201,37 @@ def copy_proj():
     proj_files_dir = os.path.abspath(os.path.join(proj_file_path,channel_name))
     dst_dir_list = os.listdir(current_dir)
     dst_dir_list_clean = []
+    dst_dir_list_no_mp4 = []
 
     channel_func()
 
+    # Creates a list of all directories
     for file_name in dst_dir_list:
         if os.path.isdir(os.path.abspath(os.path.join(current_dir,file_name))):
             dst_dir_list_clean.append(file_name)
         else:
             pass
-    
-    count_prem = 0
-    for y in dst_dir_list_clean:
+
+    count = 0
+    for file_name_clean in dst_dir_list_clean:
         
-        dst_dir_list_clean[count_prem] = dst_dir_list_clean[count_prem].replace(".mp4","")
-        dir_path = os.path.abspath(os.path.join(current_dir,dst_dir_list_clean[count_prem]))
-
-        dir_path = os.path.abspath(os.path.join(dir_path,"Shorts"+channel_name+".prproj"))
+        dst_dir_list_no_mp4.append(file_name_clean.replace(".mp4",""))
+        dst_dir_path = os.path.abspath(os.path.join(current_dir,os.path.splitext(file_name_clean)[0],os.path.splitext(file_name_clean)[0]+".prproj"))
         prem_file = os.path.abspath(os.path.join(proj_files_dir,"Shorts"+channel_name+".prproj"))
-        dir_path_rename = os.path.abspath(os.path.join(os.path.dirname(dir_path),os.path.splitext(dst_dir_list_clean[count_prem])[0]+".prproj"))
 
-        if not os.path.exists(dir_path_rename):
+        if not os.path.exists(dst_dir_path):
 
-            shutil.copyfile(prem_file,dir_path)
-            os.rename(dir_path,dir_path_rename)
+            shutil.copyfile(prem_file,dst_dir_path)
+            os.rename(dst_dir_path,dst_dir_path)
 
-        elif os.path.exists(dir_path_rename):
+        elif os.path.exists(dst_dir_path):
 
             overwrite_input = input("Do you want to overwrite the existing project file? (y / n) : ")
             if overwrite_input == "y":
-                os.remove(dir_path)
-                os.remove(dir_path_rename)
-                shutil.copyfile(prem_file,dir_path)
-                os.rename(dir_path,dir_path_rename)
+                os.remove(dst_dir_path)
+                os.remove(dst_dir_path)
+                shutil.copyfile(prem_file,dst_dir_path)
+                os.rename(dst_dir_path,dst_dir_path)
             
             elif overwrite_input == "n":
                 pass
@@ -244,7 +239,7 @@ def copy_proj():
             else:
                 print("Something went wrong creating the file it has been skipped!")
         
-        count_prem += 1
+        count += 1
 
     copy_proj_used = True
 
