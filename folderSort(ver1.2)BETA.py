@@ -2,6 +2,7 @@ from fileinput import filename
 from itertools import count
 from msilib.schema import Shortcut
 import os
+from os.path import isdir
 import shutil
 import winshell
 import win32com.client
@@ -141,7 +142,20 @@ def make_dir():
 
     for directory_name in clean_list:
         dir_path = os.path.abspath(os.path.join(current_dir,directory_name))
-        os.mkdir(dir_path)
+        if not os.path.isdir(dir_path):
+            os.mkdir(dir_path)
+        elif os.path.isdir(dir_path):
+            while True:
+                print(" The directory : " + dir_path + " already exists.")
+                user_input = input("Do you want to replace it permanently deleting all files contained? (y/n) : ")
+                if user_input == "y":
+                    shutil.rmtree(dir_path)
+                    os.mkdir(dir_path)
+                    break
+                elif user_input == "n":
+                    break
+                else:
+                    print("Enter an existing option!")
 
 # Moves files to folders
 def move_files():
