@@ -208,9 +208,9 @@ def copy_proj():
 
     channel_func()
 
-    for p in dst_dir_list:
-        if os.path.isdir(os.path.abspath(os.path.join(current_dir,p))):
-            dst_dir_list_clean.append(p)
+    for file_name in dst_dir_list:
+        if os.path.isdir(os.path.abspath(os.path.join(current_dir,file_name))):
+            dst_dir_list_clean.append(file_name)
         else:
             pass
     
@@ -219,81 +219,34 @@ def copy_proj():
         
         dst_dir_list_clean[count_prem] = dst_dir_list_clean[count_prem].replace(".mp4","")
         dir_path = os.path.abspath(os.path.join(current_dir,dst_dir_list_clean[count_prem]))
-        
-        if "Stretched" in dir_path:
 
-            dir_path = os.path.abspath(os.path.join(dir_path,"Shorts"+channel_name+".prproj"))
-            prem_file = os.path.abspath(os.path.join(proj_files_dir,"Shorts"+channel_name+".prproj"))
-            dir_path_rename = os.path.abspath(os.path.join(os.path.dirname(dir_path),os.path.splitext(dst_dir_list_clean[count_prem])[0]+".prproj"))
-            
-            if not os.path.exists(dir_path_rename):
+        dir_path = os.path.abspath(os.path.join(dir_path,"Shorts"+channel_name+".prproj"))
+        prem_file = os.path.abspath(os.path.join(proj_files_dir,"Shorts"+channel_name+".prproj"))
+        dir_path_rename = os.path.abspath(os.path.join(os.path.dirname(dir_path),os.path.splitext(dst_dir_list_clean[count_prem])[0]+".prproj"))
 
+        if not os.path.exists(dir_path_rename):
+
+            shutil.copyfile(prem_file,dir_path)
+            os.rename(dir_path,dir_path_rename)
+
+        elif os.path.exists(dir_path_rename):
+
+            overwrite_input = input("Do you want to overwrite the existing project file? (y / n) : ")
+            if overwrite_input == "y":
+                os.remove(dir_path)
+                os.remove(dir_path_rename)
                 shutil.copyfile(prem_file,dir_path)
                 os.rename(dir_path,dir_path_rename)
-
-            elif os.path.exists(dir_path_rename):
-
-                overwrite_input = input("Do you want to overwrite the existing project file? (y / n) : ")
-                if overwrite_input == "y":
-                    os.remove(dir_path)
-                    os.remove(dir_path_rename)
-                    shutil.copyfile(prem_file,dir_path)
-                    os.rename(dir_path,dir_path_rename)
-                
-                elif overwrite_input == "n":
-                    pass
-                
-                else:
-                    print("Something went wrong creating the file it has been skipped!")
-
-        elif "Stretched" not in dir_path and "Shorts" in dir_path:
-
-            dir_path = os.path.abspath(os.path.join(dir_path,"Shorts"+channel_name+".prproj"))
-            prem_file = os.path.abspath(os.path.join(proj_files_dir,"Shorts"+channel_name+".prproj"))
-            dir_path_rename = os.path.abspath(os.path.join(os.path.dirname(dir_path),os.path.splitext(dst_dir_list_clean[count_prem])[0]+".prproj"))
             
-            if not os.path.exists(dir_path_rename):
-
-                shutil.copyfile(prem_file,dir_path)
-                os.rename(dir_path,dir_path_rename)
-
-            elif os.path.exists(dir_path_rename):
-
-                overwrite_input = input("Do you want to overwrite the existing project file? (y / n) : ")
-                if overwrite_input == "y":
-                    os.remove(dir_path)
-                    os.remove(dir_path_rename)
-                    shutil.copyfile(prem_file,dir_path)
-                    os.rename(dir_path,dir_path_rename)
-                else:
-                    print("Something went wrong creating the file it has been skipped!")
-
-        else:
-
-            dir_path = os.path.abspath(os.path.join(dir_path,"Shorts"+channel_name+".prproj"))
-            prem_file = os.path.abspath(os.path.join(proj_files_dir,"Shorts"+channel_name+".prproj"))
-            dir_path_rename = os.path.abspath(os.path.join(os.path.dirname(dir_path),os.path.splitext(dst_dir_list_clean[count_prem])[0]+".prproj"))
+            elif overwrite_input == "n":
+                pass
             
-            if not os.path.exists(dir_path_rename):
-
-                shutil.copyfile(prem_file,dir_path)
-                os.rename(dir_path,dir_path_rename)
-
-            elif os.path.exists(dir_path_rename):
-
-                overwrite_input = input("Do you want to overwrite the existing project file? (y / n) : ")
-                if overwrite_input == "y":
-                    os.remove(dir_path)
-                    os.remove(dir_path_rename)
-                    shutil.copyfile(prem_file,dir_path)
-                    os.rename(dir_path,dir_path_rename)
-                else:
-                    print("Something went wrong creating the file it has been skipped!")
+            else:
+                print("Something went wrong creating the file it has been skipped!")
         
         count_prem += 1
-    
+
     copy_proj_used = True
-    main()
 
 #creates a shortcut to the final video
 def create_shortcut():
